@@ -1,0 +1,9 @@
+.DS_Store
+*.app/
+*.zip
+.build/
+.swiftpm/
+.env*
+*.p8
+*.p12
+*.key
