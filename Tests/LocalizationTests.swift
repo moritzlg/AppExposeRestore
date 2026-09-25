@@ -23,10 +23,11 @@ for file in files {
             precondition(strings.keys == reference.keys, "Missing or extra keys in \(url.path)")
             for key in strings.keys {
                 let placeholders = try! NSRegularExpression(pattern: "%(?:[0-9]+\\$)?[@d]")
-                let count: (String) -> Int = { value in
-                    placeholders.numberOfMatches(in: value, range: NSRange(value.startIndex..., in: value))
+                let tokens: (String) -> [String] = { value in
+                    placeholders.matches(in: value, range: NSRange(value.startIndex..., in: value))
+                        .compactMap { Range($0.range, in: value).map { String(value[$0]) } }
                 }
-                precondition(count(strings[key]!) == count(reference[key]!),
+                precondition(tokens(strings[key]!) == tokens(reference[key]!),
                              "Placeholder mismatch for \(key) in \(url.path)")
             }
         } else {
