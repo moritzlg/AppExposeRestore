@@ -62,28 +62,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func configureMenu() {
         menu = NSMenu()
         menu.delegate = self
-        showItem = NSMenuItem(title: "Minimierte Fenster zeigen", action: #selector(showManually), keyEquivalent: "")
+        showItem = NSMenuItem(title: L10n.text("menu.showMinimized"), action: #selector(showManually), keyEquivalent: "")
         showItem.target = self
         menu.addItem(showItem)
-        automaticItem = NSMenuItem(title: "Automatisch in Exposé anzeigen", action: #selector(toggleAutomatic), keyEquivalent: "")
+        automaticItem = NSMenuItem(title: L10n.text("menu.automatic"), action: #selector(toggleAutomatic), keyEquivalent: "")
         automaticItem.target = self
         automaticItem.state = preferences.automaticDisplay ? .on : .off
         menu.addItem(automaticItem)
         menu.addItem(.separator())
-        permissionItem = NSMenuItem(title: "Accessibility: prüfen …", action: #selector(openAccessibilitySettings), keyEquivalent: "")
+        permissionItem = NSMenuItem(title: L10n.text("permission.accessibility.check"), action: #selector(openAccessibilitySettings), keyEquivalent: "")
         permissionItem.target = self
         menu.addItem(permissionItem)
-        previewPermissionItem = NSMenuItem(title: "Fenstervorschau: prüfen …", action: #selector(requestPreviewPermission), keyEquivalent: "")
+        previewPermissionItem = NSMenuItem(title: L10n.text("permission.preview.check"), action: #selector(requestPreviewPermission), keyEquivalent: "")
         previewPermissionItem.target = self
         menu.addItem(previewPermissionItem)
-        diagnosticItem = NSMenuItem(title: "Fensterabfrage: noch nicht geprüft", action: nil, keyEquivalent: "")
+        diagnosticItem = NSMenuItem(title: L10n.text("diagnostic.notChecked"), action: nil, keyEquivalent: "")
         diagnosticItem.isEnabled = false
         menu.addItem(diagnosticItem)
         menu.addItem(.separator())
-        let settingsItem = NSMenuItem(title: "Einstellungen …", action: #selector(showSettings), keyEquivalent: ",")
+        let settingsItem = NSMenuItem(title: L10n.text("menu.settings"), action: #selector(showSettings), keyEquivalent: ",")
         settingsItem.target = self
         menu.addItem(settingsItem)
-        let quitItem = NSMenuItem(title: "App Exposé Restore beenden", action: #selector(quit), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: L10n.text("menu.quit"), action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
         updatePermissionItem()
@@ -184,36 +184,39 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @discardableResult
     private func showForLastApplication() -> Bool {
         guard let app = lastApplication, !app.isTerminated else {
-            diagnosticItem.title = "Fensterabfrage: keine aktive App"
+            diagnosticItem.title = L10n.text("diagnostic.noActiveApp")
             return false
         }
         let lookup = AccessibilityWindows.minimizedWindows(of: app)
         lastLookupAllowed = lookup.error == nil
         updatePermissionItem()
         if let error = lookup.error {
-            diagnosticItem.title = "Fensterabfrage: AX-Fehler \(error.rawValue)"
+            diagnosticItem.title = L10n.format("diagnostic.axError", error.rawValue)
             return false
         }
-        diagnosticItem.title = "\(app.localizedName ?? "App"): \(lookup.windows.count) minimierte Fenster"
+        diagnosticItem.title = L10n.format(
+            lookup.windows.count == 1 ? "diagnostic.oneWindow" : "diagnostic.manyWindows",
+            app.localizedName ?? L10n.text("generic.app"), lookup.windows.count
+        )
         guard !lookup.windows.isEmpty else { return false }
-        strip.show(lookup.windows, appName: app.localizedName ?? "App", raiseOnRestore: !wasExposing,
+        strip.show(lookup.windows, appName: app.localizedName ?? L10n.text("generic.app"), raiseOnRestore: !wasExposing,
                    showsPreviews: preferences.showPreviews)
         return true
     }
 
     private func updatePermissionItem() {
         permissionItem?.title = (AXIsProcessTrusted() && (lastLookupAllowed ?? true))
-            ? "Accessibility: erlaubt"
-            : "Accessibility erlauben …"
+            ? L10n.text("permission.accessibility.allowed")
+            : L10n.text("permission.accessibility.allow")
         let previewAuthorized = WindowPreviewCapture.isAuthorized
         if !preferences.showPreviews {
-            previewPermissionItem?.title = "Fenstervorschau: in Einstellungen aus"
+            previewPermissionItem?.title = L10n.text("permission.preview.disabled")
         } else if previewAuthorized {
-            previewPermissionItem?.title = "Fenstervorschau: aktiv"
+            previewPermissionItem?.title = L10n.text("permission.preview.active")
         } else if previewGrantPendingRestart {
-            previewPermissionItem?.title = "Fenstervorschau: bitte App neu starten"
+            previewPermissionItem?.title = L10n.text("permission.preview.restart")
         } else {
-            previewPermissionItem?.title = "Fenstervorschau: Bildschirmaufnahme erlauben …"
+            previewPermissionItem?.title = L10n.text("permission.preview.allow")
         }
         previewPermissionItem?.isEnabled = preferences.showPreviews && !previewAuthorized && !previewGrantPendingRestart
         showItem?.isEnabled = lastApplication != nil
@@ -252,10 +255,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         let dockMenu = NSMenu()
-        let show = NSMenuItem(title: "Minimierte Fenster zeigen", action: #selector(showManually), keyEquivalent: "")
+        let show = NSMenuItem(title: L10n.text("menu.showMinimized"), action: #selector(showManually), keyEquivalent: "")
         show.target = self
         dockMenu.addItem(show)
-        let settings = NSMenuItem(title: "Einstellungen …", action: #selector(showSettings), keyEquivalent: "")
+        let settings = NSMenuItem(title: L10n.text("menu.settings"), action: #selector(showSettings), keyEquivalent: "")
         settings.target = self
         dockMenu.addItem(settings)
         return dockMenu

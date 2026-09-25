@@ -1,0 +1,30 @@
+"menu.showMinimized" = "Minimierte Fenster zeigen";
+"menu.automatic" = "Automatisch in App Exposé anzeigen";
+"menu.settings" = "Einstellungen …";
+"menu.quit" = "App Exposé Restore beenden";
+
+"permission.accessibility.check" = "Accessibility: prüfen …";
+"permission.accessibility.allowed" = "Accessibility: erlaubt";
+"permission.accessibility.allow" = "Accessibility erlauben …";
+"permission.preview.check" = "Fenstervorschau: prüfen …";
+"permission.preview.disabled" = "Fenstervorschau: in Einstellungen aus";
+"permission.preview.active" = "Fenstervorschau: aktiv";
+"permission.preview.restart" = "Fenstervorschau: bitte App neu starten";
+"permission.preview.allow" = "Fenstervorschau: Bildschirmaufnahme erlauben …";
+
+"diagnostic.notChecked" = "Fensterabfrage: noch nicht geprüft";
+"diagnostic.noActiveApp" = "Fensterabfrage: keine aktive App";
+"diagnostic.axError" = "Fensterabfrage: AX-Fehler %d";
+"diagnostic.oneWindow" = "%@: %d minimiertes Fenster";
+"diagnostic.manyWindows" = "%@: %d minimierte Fenster";
+
+"generic.app" = "App";
+"generic.window" = "Fenster %d";
+"strip.heading" = "Minimierte Fenster · %@";
+"strip.restore" = "Fenster wiederherstellen: %@";
+
+"settings.windowTitle" = "App Exposé Restore – Einstellungen";
+"settings.heading" = "Einstellungen";
+"settings.automatic" = "In App Exposé automatisch anzeigen";
+"settings.menuBar" = "Symbol in der Menüleiste anzeigen";
+"settings.previews" = "Fensterinhalte als Vorschau anzeigen";

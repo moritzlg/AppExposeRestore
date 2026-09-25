@@ -30,6 +30,13 @@ struct WindowPreviewMatcherTests {
             WindowPreviewRequest(index: 2, processID: pid, frame: first, title: "New Tab - Chrome")],
             to: [candidates[0]])
         precondition(reused.isEmpty)
+
+        let wrongTitle = WindowPreviewCandidate(windowID: 104, processID: pid, frame: first,
+                                                title: "Private Document", isOnScreen: false)
+        precondition(WindowPreviewMatcher.match([requests[0]], to: [wrongTitle]).isEmpty)
+        let missingTitle = WindowPreviewCandidate(windowID: 105, processID: pid, frame: first,
+                                                  title: nil, isOnScreen: false)
+        precondition(WindowPreviewMatcher.match([requests[0]], to: [missingTitle]).isEmpty)
         print("WindowPreviewMatcherTests passed")
     }
 }

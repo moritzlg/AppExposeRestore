@@ -2,11 +2,11 @@ import AppKit
 
 final class SettingsWindowController: NSWindowController {
     private let preferences: AppPreferences
-    private let automaticToggle = NSButton(checkboxWithTitle: "In App Exposé automatisch anzeigen",
+    private let automaticToggle = NSButton(checkboxWithTitle: L10n.text("settings.automatic"),
                                            target: nil, action: nil)
-    private let menuBarToggle = NSButton(checkboxWithTitle: "Symbol in der Menüleiste anzeigen",
+    private let menuBarToggle = NSButton(checkboxWithTitle: L10n.text("settings.menuBar"),
                                          target: nil, action: nil)
-    private let previewToggle = NSButton(checkboxWithTitle: "Fensterinhalte als Vorschau anzeigen",
+    private let previewToggle = NSButton(checkboxWithTitle: L10n.text("settings.previews"),
                                          target: nil, action: nil)
     var onChange: (() -> Void)?
 
@@ -14,7 +14,7 @@ final class SettingsWindowController: NSWindowController {
         self.preferences = preferences
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 480, height: 160),
                               styleMask: [.titled, .closable], backing: .buffered, defer: false)
-        window.title = "App Exposé Restore – Einstellungen"
+        window.title = L10n.text("settings.windowTitle")
         window.center()
         window.isReleasedWhenClosed = false
         super.init(window: window)
@@ -51,7 +51,7 @@ final class SettingsWindowController: NSWindowController {
             stack.topAnchor.constraint(equalTo: content.topAnchor, constant: 24)
         ])
 
-        let heading = NSTextField(labelWithString: "Einstellungen")
+        let heading = NSTextField(labelWithString: L10n.text("settings.heading"))
         heading.font = .systemFont(ofSize: 17, weight: .semibold)
         stack.addArrangedSubview(heading)
 

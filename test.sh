@@ -27,7 +27,8 @@ DEVELOPER_DIR="$developer_dir" \
 CLANG_MODULE_CACHE_PATH="$test_dir/modulecache" \
 SWIFT_MODULE_CACHE_PATH="$test_dir/modulecache" \
 xcrun swiftc -parse-as-library -module-cache-path "$test_dir/modulecache" \
-  "$root_dir/Sources/AccessibilityWindows.swift" "$root_dir/Sources/RestoreTrace.swift" \
+  "$root_dir/Sources/AccessibilityWindows.swift" "$root_dir/Sources/Localization.swift" \
+  "$root_dir/Sources/RestoreTrace.swift" \
   "$root_dir/Tests/AccessibilityWindowsTests.swift" \
   -o "$test_dir/accessibility-windows-tests"
 "$test_dir/accessibility-windows-tests"
@@ -49,8 +50,16 @@ DEVELOPER_DIR="$developer_dir" \
 CLANG_MODULE_CACHE_PATH="$test_dir/modulecache" \
 SWIFT_MODULE_CACHE_PATH="$test_dir/modulecache" \
 xcrun swiftc -module-cache-path "$test_dir/modulecache" \
-  "$root_dir/Sources/AppPreferences.swift" "$root_dir/Sources/StripAppearance.swift" \
+  "$root_dir/Sources/AppPreferences.swift" "$root_dir/Sources/Localization.swift" \
+  "$root_dir/Sources/StripAppearance.swift" \
   "$root_dir/Sources/SettingsWindowController.swift" \
   "$root_dir/Tests/StripAppearanceTests.swift" \
   -o "$test_dir/strip-appearance-tests"
 "$test_dir/strip-appearance-tests"
+DEVELOPER_DIR="$developer_dir" \
+CLANG_MODULE_CACHE_PATH="$test_dir/modulecache" \
+SWIFT_MODULE_CACHE_PATH="$test_dir/modulecache" \
+xcrun swiftc -module-cache-path "$test_dir/modulecache" \
+  "$root_dir/Tests/LocalizationTests.swift" \
+  -o "$test_dir/localization-tests"
+"$test_dir/localization-tests" "$root_dir/Resources"

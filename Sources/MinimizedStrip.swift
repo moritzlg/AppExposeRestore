@@ -50,7 +50,7 @@ final class MinimizedStrip: NSObject {
         let appearance = StripAppearance.stripBackground(size: frame.size)
         let background = appearance.content
 
-        let heading = NSTextField(labelWithString: "Minimierte Fenster · \(appName)")
+        let heading = NSTextField(labelWithString: L10n.format("strip.heading", appName))
         heading.font = .systemFont(ofSize: 13, weight: .semibold)
         heading.textColor = .secondaryLabelColor
         heading.frame = NSRect(x: 18, y: 178, width: width - 72, height: 20)
@@ -101,7 +101,7 @@ final class MinimizedStrip: NSObject {
             button.action = #selector(windowClicked(_:))
             _ = button.sendAction(on: .leftMouseDown)
             button.toolTip = window.title
-            button.setAccessibilityLabel("Fenster wiederherstellen: \(window.title)")
+            button.setAccessibilityLabel(L10n.format("strip.restore", window.title))
             card.content.addSubview(button)
             row.addSubview(card.root)
         }

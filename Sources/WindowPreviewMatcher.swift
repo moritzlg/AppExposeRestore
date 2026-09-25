@@ -21,13 +21,11 @@ enum WindowPreviewMatcher {
                       to candidates: [WindowPreviewCandidate]) -> [Int: CGWindowID] {
         var proposed: [Int: CGWindowID] = [:]
         for request in requests {
-            var matches = candidates.filter {
+            let matches = candidates.filter {
                 $0.processID == request.processID && !$0.isOnScreen &&
                 $0.frame.width >= 120 && $0.frame.height >= 100 &&
-                approximatelyEqual($0.frame, request.frame)
-            }
-            if matches.count > 1 {
-                matches = matches.filter { titleMatches(request.title, $0.title) }
+                approximatelyEqual($0.frame, request.frame) &&
+                titleMatches(request.title, $0.title)
             }
             if matches.count == 1 { proposed[request.index] = matches[0].windowID }
         }

@@ -1,49 +1,54 @@
 # App Exposé Restore
 
-Eine kleine macOS-App, die minimierte Fenster der aktiven App wieder in App Exposé zeigt. Sie ergänzt die native Übersicht bei ⌃↓ oder der Drei-Finger-Geste um anklickbare Fensterkarten mit Inhaltsvorschau. Auch minimierte Finder-Fenster werden berücksichtigt.
+App Exposé Restore brings minimized windows back into **App Exposé** on macOS 27. Open App Exposé with your existing Control–Down Arrow shortcut or trackpad gesture, then click a card to restore a minimized window. Cards can show a still preview of the window's contents. Finder windows are supported.
 
-Dieses Projekt ist ein Workaround für das unter macOS 27 beobachtete Fehlen minimierter Fenster in App Exposé. Die automatische Erkennung beruht auf nicht dokumentierten Fenster-Layern von Dock und WindowManager und kann nach macOS-Updates Anpassungen brauchen.
+This is an independent workaround for the missing minimized-window row in macOS 27. It does not modify macOS or replace your App Exposé shortcut. Detection relies on undocumented Dock and WindowManager window layers, so a macOS update may require an app update.
 
-## Aus dem Quellcode bauen
+## Build it yourself
 
-Benötigt: macOS mit Xcode 27 oder neuer. Es gibt keine externen Pakete oder Build-Dienste.
+Requires macOS 27 and a full installation of Xcode 27 or later. There are no external packages, services, or build accounts.
 
 ```sh
+git clone https://github.com/moritzlg/AppExposeRestore.git
+cd AppExposeRestore
 ./test.sh
 ./build.sh
-mkdir -p "$HOME/Applications"
-ditto -x -k ../AppExposeRestore.zip "$HOME/Applications"
-open "$HOME/Applications/AppExposeRestore.app"
 ```
 
-`build.sh` erzeugt eine lokal **ad hoc signierte** App und legt die ZIP eine Ebene über dem Repository ab. Dafür sind weder ein Apple-Developer-Konto noch ein Zertifikat nötig. Für wiederholte Builds auf demselben Mac empfiehlt sich eine eigene stabile Code-Signing-Identität, damit macOS die Berechtigungen nicht wegen einer geänderten Signatur erneut verlangt:
+`build.sh` creates `../AppExposeRestore.zip`, outside the repository. Open the ZIP, move `AppExposeRestore.app` to your Applications folder, and launch it. On first use, grant the macOS permissions described below. To update the app, quit it and replace the old app bundle with the newly built one.
+
+The default build uses **ad hoc code signing**. You do not need an Apple Developer account or a certificate to build from source on your own Mac. If you build frequently, you can optionally use your own local code-signing identity so macOS is less likely to ask for permissions again after each build:
 
 ```sh
-APP_EXPOSE_SIGNING_IDENTITY="Name deiner lokalen Code-Signing-Identität" ./build.sh
+APP_EXPOSE_SIGNING_IDENTITY="Your local code-signing identity" ./build.sh
 ```
 
-Der private Schlüssel bleibt im eigenen Schlüsselbund und gehört **nicht** ins Repository. Dieses Repository veröffentlicht nur Quellcode. Ein fertig herunterladbarer Build wäre ein anderer Distributionsweg: Dafür sind Developer-ID-Signierung und Notarisierung bei Apple der übliche Weg.
+Keep its private key in your own Keychain; never commit or share it. This repository distributes **source code only**. Downloadable binaries would need a separate [Developer ID signing and notarization](https://developer.apple.com/developer-id/) process for normal Gatekeeper handling.
 
-## Berechtigungen und Bedienung
+## Permissions
 
-- **Bedienungshilfen/Accessibility:** nötig, um minimierte Fenster zu finden und per Klick wiederherzustellen. Die App zeigt einen Menüpunkt zur passenden Systemeinstellung. Unter macOS 27.0 liegt der Schalter unter *Datenschutz & Sicherheit → Gerätesteuerung und Datenzugriff*.
-- **Bildschirmaufnahme:** nötig für Inhaltsbilder der Karten. Ohne Freigabe bleiben die Fensterkarten nutzbar und zeigen stattdessen das App-Symbol.
+| Permission | Why it is needed |
+| --- | --- |
+| Accessibility | Find minimized windows and restore the selected window. |
+| Screen Recording | Show a still image of a minimized window in its card. This is optional; cards show the app icon when permission or an unambiguous image is unavailable. |
 
-Im Menü und im Einstellungsfenster lassen sich die automatische Anzeige, das Menüleistensymbol und die Inhaltsvorschau schalten. Ohne Menüleistensymbol erscheint die App im Dock. Die Fensterkarten verwenden fest den klaren Liquid-Glass-Stil. Der Glasstil verändert weder die Leiste noch das Einstellungsfenster.
+The app links to the relevant macOS settings. It processes window titles and preview images in memory. It does not save or transmit them, has no analytics, and makes no network requests. Local diagnostic logs contain timing phases, counts, and error codes, without titles or images.
 
-## Datenschutz
+## Controls and languages
 
-Fenstertitel und Vorschaubilder werden nur im Arbeitsspeicher verarbeitet und nicht als Dateien gespeichert oder ins Netz gesendet. Das lokale macOS-Protokoll enthält Ablauf- und Zeitmarken sowie Trefferzahlen, aber keine Fenstertitel oder Bildinhalte. Bildschirmbilder werden nur für sichtbare minimierte Fenster angefordert und bei erneutem Öffnen aktualisiert.
+The menu and Settings window let you turn automatic display, the menu bar icon, and content previews on or off. With the menu bar icon hidden, the app stays accessible from the Dock. The cards use a fixed Clear Liquid Glass appearance; these settings do not change their glass style.
 
-## Grenzen
+English and German are included. macOS chooses the language from your preferred app languages.
 
-- Getestet unter macOS 27. Andere Versionen können sich bei App Exposé anders verhalten.
-- Die Karten zeigen einzelne Standbilder, keinen laufenden Stream. Falls macOS kein Bild liefert oder ein Fenster nicht eindeutig zuordenbar ist, bleibt das App-Symbol sichtbar.
-- Manche Apps liefern minimierte Fenster nur über `AXChildren` statt `AXWindows`. Die App prüft beide Listen. Fenster, die eine App über keine davon zugänglich macht, können fehlen.
-- Nach einem Neubau mit anderer Signatur kann macOS die Accessibility- oder Bildschirmaufnahmefreigabe erneut verlangen.
+## Limitations and testing
 
-Die Tests in `./test.sh` prüfen Erkennung, Fensterzuordnung, Einstellungen und Darstellung. Sie benötigen keine echten Fensterinhalte. Für einen Praxistest zwei Fenster einer App öffnen, eines minimieren, App Exposé öffnen und die Karte anklicken. In Mission Control darf die Zusatzleiste nicht erscheinen.
+- The app has been tested on macOS 27. Other versions may expose windows differently.
+- Previews are still images, not live streams. If a preview cannot be matched safely to its window, the card keeps the app icon.
+- Some apps expose minimized windows through Accessibility children instead of their ordinary window list. Both are checked, but a window hidden from both cannot be shown.
+- Changing a local app signature can make macOS ask for Accessibility or Screen Recording permission again.
 
-## Lizenz
+`./test.sh` checks Exposé detection, window enumeration and preview matching, preferences, rendering, and localization. For a manual check, open two windows in one app, minimize one, open App Exposé, and click the added card. Mission Control should not show the added row.
 
-MIT – siehe [LICENSE](LICENSE).
+## License
+
+MIT — see [LICENSE](LICENSE). App Exposé Restore is not affiliated with Apple.

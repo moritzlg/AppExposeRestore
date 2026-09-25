@@ -38,7 +38,7 @@ enum AccessibilityWindows {
             var rawTitle: CFTypeRef?
             _ = AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &rawTitle)
             let title = (rawTitle as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
-            let displayTitle = title?.isEmpty == false ? title! : "Fenster \(index + 1)"
+            let displayTitle = title?.isEmpty == false ? title! : L10n.format("generic.window", index + 1)
             return MinimizedWindow(element: element, title: displayTitle,
                                    application: application, frame: frame(of: element))
         }

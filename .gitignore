@@ -7,3 +7,9 @@
 *.p8
 *.p12
 *.key
+*.pem
+*.pfx
+*.mobileprovision
+*.xcarchive/
+*.dSYM/
+DerivedData/

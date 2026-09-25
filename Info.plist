@@ -5,11 +5,12 @@
     <key>CFBundleIdentifier</key><string>local.moritz.AppExposeRestore</string>
     <key>CFBundleName</key><string>App Exposé Restore</string>
     <key>CFBundleDisplayName</key><string>App Exposé Restore</string>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
     <key>CFBundlePackageType</key><string>APPL</string>
-    <key>CFBundleShortVersionString</key><string>0.4.0</string>
-    <key>CFBundleVersion</key><string>8</string>
+    <key>CFBundleShortVersionString</key><string>0.5.0</string>
+    <key>CFBundleVersion</key><string>9</string>
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>
-    <key>NSScreenCaptureUsageDescription</key><string>App Exposé Restore zeigt lokale Vorschaubilder minimierter Fenster. Die Bilder bleiben im Arbeitsspeicher und werden nicht gespeichert.</string>
+    <key>NSScreenCaptureUsageDescription</key><string>App Exposé Restore displays previews of minimized windows. Images stay in memory and are never saved.</string>
 </dict></plist>

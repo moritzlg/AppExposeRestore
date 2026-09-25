@@ -11,8 +11,9 @@ signing_identity="${APP_EXPOSE_SIGNING_IDENTITY:--}"
 if [[ ! -d "$developer_dir" ]]; then
   developer_dir="$(xcode-select -p)"
 fi
-mkdir -p "$build_dir/modulecache" "$app_dir/Contents/MacOS"
+mkdir -p "$build_dir/modulecache" "$app_dir/Contents/MacOS" "$app_dir/Contents/Resources"
 cp "$root_dir/Info.plist" "$app_dir/Contents/Info.plist"
+ditto "$root_dir/Resources" "$app_dir/Contents/Resources"
 DEVELOPER_DIR="$developer_dir" \
 CLANG_MODULE_CACHE_PATH="$build_dir/modulecache" \
 SWIFT_MODULE_CACHE_PATH="$build_dir/modulecache" \

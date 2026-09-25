@@ -1,0 +1,30 @@
+"menu.showMinimized" = "Show Minimized Windows";
+"menu.automatic" = "Show Automatically in App Exposé";
+"menu.settings" = "Settings…";
+"menu.quit" = "Quit App Exposé Restore";
+
+"permission.accessibility.check" = "Accessibility: Checking…";
+"permission.accessibility.allowed" = "Accessibility: Allowed";
+"permission.accessibility.allow" = "Allow Accessibility…";
+"permission.preview.check" = "Window Previews: Checking…";
+"permission.preview.disabled" = "Window Previews: Off in Settings";
+"permission.preview.active" = "Window Previews: Active";
+"permission.preview.restart" = "Window Previews: Restart App";
+"permission.preview.allow" = "Window Previews: Allow Screen Recording…";
+
+"diagnostic.notChecked" = "Window Query: Not Checked Yet";
+"diagnostic.noActiveApp" = "Window Query: No Active App";
+"diagnostic.axError" = "Window Query: AX Error %d";
+"diagnostic.oneWindow" = "%@: %d Minimized Window";
+"diagnostic.manyWindows" = "%@: %d Minimized Windows";
+
+"generic.app" = "App";
+"generic.window" = "Window %d";
+"strip.heading" = "Minimized Windows · %@";
+"strip.restore" = "Restore Window: %@";
+
+"settings.windowTitle" = "App Exposé Restore – Settings";
+"settings.heading" = "Settings";
+"settings.automatic" = "Show Automatically in App Exposé";
+"settings.menuBar" = "Show Icon in Menu Bar";
+"settings.previews" = "Show Window Content Previews";
