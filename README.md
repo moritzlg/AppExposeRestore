@@ -4,9 +4,21 @@ App Exposé Restore brings minimized windows back into **App Exposé** on macOS 
 
 This is an independent workaround for the missing minimized-window row in macOS 27. It does not modify macOS or replace your App Exposé shortcut. Detection relies on undocumented Dock and WindowManager window layers, so a macOS update may require an app update.
 
+## Screenshots
+
+These are real macOS 27 App Exposé captures with neutral Script Editor windows. The same window is minimized in both comparison images; only the app's automatic display setting changes. The images were cropped to exclude the second display and empty borders.
+
+| Automatic display off | Automatic display on |
+| --- | --- |
+| ![App Exposé showing the visible demo window but no minimized-window card](docs/screenshots/before.png) | ![App Exposé with a preview card for the minimized demo window](docs/screenshots/after.png) |
+
+With several minimized demo windows, the row expands and scrolls horizontally:
+
+![App Exposé with nine minimized Script Editor windows in a horizontal preview row](docs/screenshots/multiple-windows.png)
+
 ## Build it yourself
 
-Requires macOS 27 and a full installation of Xcode 27 or later. There are no external packages, services, or build accounts.
+Supported on macOS 27. Building requires a full installation of Xcode 27 or later. There are no external packages, services, or build accounts.
 
 ```sh
 git clone https://github.com/moritzlg/AppExposeRestore.git
