@@ -23,7 +23,7 @@ The default build uses **ad hoc code signing**. You do not need an Apple Develop
 APP_EXPOSE_SIGNING_IDENTITY="Your local code-signing identity" ./build.sh
 ```
 
-Keep its private key in your own Keychain; never commit or share it. This repository distributes **source code only**. Downloadable binaries would need a separate [Developer ID signing and notarization](https://developer.apple.com/developer-id/) process for normal Gatekeeper handling.
+Keep its private key in your own Keychain; never commit or share it. This repository distributes **source code only**. Downloadable binaries would need a separate [Developer ID signing and notarization](https://developer.apple.com/developer-id/) process for normal Gatekeeper handling. The Git history starts with the 0.4.0 source release after private development; it does not claim to include every earlier development step.
 
 ## Permissions
 
@@ -32,7 +32,7 @@ Keep its private key in your own Keychain; never commit or share it. This reposi
 | Accessibility | Find minimized windows and restore the selected window. |
 | Screen Recording | Show a still image of a minimized window in its card. This is optional; cards show the app icon when permission or an unambiguous image is unavailable. |
 
-The app links to the relevant macOS settings. It processes window titles and preview images in memory. It does not save or transmit them, has no analytics, and makes no network requests. Local diagnostic logs contain timing phases, counts, and error codes, without titles or images.
+The app links to the relevant macOS settings. Its source contains no network requests, analytics, or external dependencies. Window titles and preview images are used in memory and are not saved or transmitted by the app. Only preferences are persisted through macOS `UserDefaults`; diagnostic logs contain timing phases, counts, dimensions, and error codes, without titles or images. This is a description of the current source, not a network restriction enforced by macOS. Review the source before granting Accessibility and Screen Recording access.
 
 ## Controls and languages
 
@@ -44,7 +44,7 @@ If you use Thaw and the menu bar icon disappears, open Thaw Settings → Menu Ba
 
 ## Limitations and testing
 
-- The app has been tested on macOS 27. Other versions may expose windows differently.
+- The app is designed and tested for macOS 27. Other versions may expose windows differently.
 - Previews are still images, not live streams. If a preview cannot be matched safely to its window, the card keeps the app icon.
 - Some apps expose minimized windows through Accessibility children instead of their ordinary window list. Both are checked, but a window hidden from both cannot be shown.
 - Changing a local app signature can make macOS ask for Accessibility or Screen Recording permission again.
