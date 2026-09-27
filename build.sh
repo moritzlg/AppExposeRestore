@@ -21,5 +21,5 @@ xcrun swiftc -O -module-cache-path "$build_dir/modulecache" \
   "$root_dir"/Sources/*.swift -o "$app_dir/Contents/MacOS/AppExposeRestore"
 codesign --force --sign "$signing_identity" "$app_dir"
 codesign --verify --deep --strict "$app_dir"
-ditto -c -k --keepParent "$app_dir" "$archive_path"
+ditto -c -k --keepParent --norsrc --noextattr --noacl "$app_dir" "$archive_path"
 echo "$archive_path"

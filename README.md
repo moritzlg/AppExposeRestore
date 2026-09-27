@@ -40,6 +40,8 @@ The menu and Settings window let you turn automatic display, the menu bar icon, 
 
 English and German are included. macOS chooses the language from your preferred app languages.
 
+If you use Thaw and the menu bar icon disappears, open Thaw Settings → Menu Bar Layout. Move **App Exposé Restore** from Hidden or Always Hidden into Visible. Thaw can initially place new status items in Hidden. The app uses a stable status-item name so macOS can persist its visibility preference; Thaw manages the section separately.
+
 ## Limitations and testing
 
 - The app has been tested on macOS 27. Other versions may expose windows differently.
@@ -48,6 +50,8 @@ English and German are included. macOS chooses the language from your preferred 
 - Changing a local app signature can make macOS ask for Accessibility or Screen Recording permission again.
 
 `./test.sh` checks Exposé detection, window enumeration and preview matching, preferences, rendering, and localization. For a manual check, open two windows in one app, minimize one, open App Exposé, and click the added card. Mission Control should not show the added row.
+
+The app icon is generated from `Tools/GenerateAppIcon.swift`. To regenerate `Resources/AppIcon.icns`, compile the generator with Xcode's Swift compiler, run it with a temporary `.iconset` directory, then convert that directory with `iconutil -c icns`.
 
 ## License
 

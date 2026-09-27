@@ -92,7 +92,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func showStatusItem() {
         guard statusItem == nil else { return }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        item.button?.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "App Exposé Restore")
+        item.autosaveName = "AppExposeRestore.MainMenu"
+        item.button?.image = AppArtwork.menuBarImage()
         item.button?.toolTip = "App Exposé Restore"
         item.menu = menu
         statusItem = item
