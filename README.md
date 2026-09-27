@@ -6,7 +6,7 @@ This is an independent workaround for the missing minimized-window row in macOS 
 
 ## Screenshots
 
-These are real macOS 27 App Exposé captures with neutral Script Editor windows. The same window is minimized in both comparison images; only the app's automatic display setting changes. The images were cropped to exclude the second display and empty borders.
+These macOS 27 App Exposé screenshots use neutral Script Editor windows. The same window is minimized in both comparison images; only the app's automatic display setting changes.
 
 | Automatic display off | Automatic display on |
 | --- | --- |
@@ -29,13 +29,13 @@ cd AppExposeRestore
 
 `build.sh` creates `../AppExposeRestore.zip`, outside the repository. Open the ZIP, move `AppExposeRestore.app` to your Applications folder, and launch it. On first use, grant the macOS permissions described below. To update the app, quit it and replace the old app bundle with the newly built one.
 
-The default build uses **ad hoc code signing**. You do not need an Apple Developer account or a certificate to build from source on your own Mac. If you build frequently, you can optionally use your own local code-signing identity so macOS is less likely to ask for permissions again after each build:
+The build script signs the app ad hoc by default, so building it on your own Mac needs no Apple Developer account or certificate. Rebuilding with a different signature can make macOS ask for Accessibility or Screen Recording access again. For repeat local builds, you can use your own Keychain signing identity:
 
 ```sh
 APP_EXPOSE_SIGNING_IDENTITY="Your local code-signing identity" ./build.sh
 ```
 
-Keep its private key in your own Keychain; never commit or share it. This repository distributes **source code only**. Downloadable binaries would need a separate [Developer ID signing and notarization](https://developer.apple.com/developer-id/) process for normal Gatekeeper handling. The Git history starts with the 0.4.0 source release after private development; it does not claim to include every earlier development step.
+This repository distributes **source code only**. A downloadable app would need [Developer ID signing and notarization](https://developer.apple.com/developer-id/) for normal Gatekeeper handling. The Git history starts with the 0.4.0 source release after private development; it does not claim to include every earlier development step.
 
 ## Permissions
 
@@ -59,7 +59,6 @@ If you use Thaw and the menu bar icon disappears, open Thaw Settings → Menu Ba
 - The app is designed and tested for macOS 27. Other versions may expose windows differently.
 - Previews are still images, not live streams. If a preview cannot be matched safely to its window, the card keeps the app icon.
 - Some apps expose minimized windows through Accessibility children instead of their ordinary window list. Both are checked, but a window hidden from both cannot be shown.
-- Changing a local app signature can make macOS ask for Accessibility or Screen Recording permission again.
 
 `./test.sh` checks Exposé detection, window enumeration and preview matching, preferences, rendering, and localization. For a manual check, open two windows in one app, minimize one, open App Exposé, and click the added card. Mission Control should not show the added row.
 
