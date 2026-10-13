@@ -1,5 +1,25 @@
 import AppKit
 
+private final class StripDragHandle: NSView {
+    static let positionKey = "minimizedStripOrigin"
+
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        super.hitTest(point) == nil ? nil : self
+    }
+
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+
+    override func resetCursorRects() {
+        addCursorRect(bounds, cursor: .openHand)
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        guard let window else { return }
+        window.performDrag(with: event)
+        UserDefaults.standard.set(NSStringFromPoint(window.frame.origin), forKey: Self.positionKey)
+    }
+}
+
 final class MinimizedStrip: NSObject {
     private var panel: NSPanel?
     private var windows: [MinimizedWindow] = []
@@ -32,10 +52,15 @@ final class MinimizedStrip: NSObject {
 
         let cardPitch: CGFloat = 216
         let width = min(screen.visibleFrame.width - 64, max(330, CGFloat(windows.count) * cardPitch + 32))
-        let frame = NSRect(x: screen.visibleFrame.midX - width / 2,
+        var frame = NSRect(x: screen.visibleFrame.midX - width / 2,
                            y: screen.visibleFrame.minY + 20,
                            width: width,
                            height: 212)
+        if let saved = UserDefaults.standard.string(forKey: StripDragHandle.positionKey) {
+            let origin = NSPointFromString(saved)
+            frame.origin.x = min(max(origin.x, screen.visibleFrame.minX), screen.visibleFrame.maxX - width)
+            frame.origin.y = min(max(origin.y, screen.visibleFrame.minY), screen.visibleFrame.maxY - frame.height)
+        }
         let newPanel = NSPanel(contentRect: frame,
                                styleMask: [.borderless, .nonactivatingPanel],
                                backing: .buffered,
@@ -50,11 +75,13 @@ final class MinimizedStrip: NSObject {
         let appearance = StripAppearance.stripBackground(size: frame.size)
         let background = appearance.content
 
+        let dragHandle = StripDragHandle(frame: NSRect(x: 0, y: 166, width: width - 48, height: 46))
         let heading = NSTextField(labelWithString: L10n.format("strip.heading", appName))
         heading.font = .systemFont(ofSize: 13, weight: .semibold)
         heading.textColor = .secondaryLabelColor
-        heading.frame = NSRect(x: 18, y: 178, width: width - 72, height: 20)
-        background.addSubview(heading)
+        heading.frame = NSRect(x: 18, y: 12, width: width - 72, height: 20)
+        dragHandle.addSubview(heading)
+        background.addSubview(dragHandle)
 
         let closeButton = NSButton(title: "✕", target: self, action: #selector(closeClicked))
         closeButton.isBordered = false

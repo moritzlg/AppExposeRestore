@@ -48,6 +48,8 @@ The app links to the relevant macOS settings. Its source contains no network req
 
 ## Controls and languages
 
+Drag the **Minimized Windows** header to move the preview row away from the Dock or other content. The app remembers its position between openings and restarts, and keeps the row within the current screen when it reopens. Clicking a preview still restores that window; the close button and horizontal scrolling work as before.
+
 The menu and Settings window let you turn automatic display, the menu bar icon, and content previews on or off. With the menu bar icon hidden, the app stays accessible from the Dock. The cards use a fixed Clear Liquid Glass appearance; these settings do not change their glass style.
 
 English and German are included. macOS chooses the language from your preferred app languages.
